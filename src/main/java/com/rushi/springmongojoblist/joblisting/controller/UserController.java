@@ -1,6 +1,7 @@
 package com.rushi.springmongojoblist.joblisting.controller;
 
 import com.rushi.springmongojoblist.joblisting.model.Post;
+import com.rushi.springmongojoblist.joblisting.repository.SearchRepository;
 import com.rushi.springmongojoblist.joblisting.repository.UserRepository;
 import com.rushi.springmongojoblist.joblisting.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,20 @@ public class UserController {
 
     @Autowired
     UserRepository repo;
+    @Autowired
+    SearchRepository srepo;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return repo.findAll();
     }
+
+
+    @GetMapping("/search/{text}")
+    public List<User> search(@PathVariable String text) {
+        return srepo.findByText(text);
+    }
+
 
     @GetMapping("/users/{email}")
     public User getAllUsers(@PathVariable String email) {
